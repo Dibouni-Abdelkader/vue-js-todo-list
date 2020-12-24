@@ -1,0 +1,95 @@
+<link rel="stylesheet" href="bootstrap.min.css">
+<div id="myapp">
+	<div class="container">
+		<div class="row">
+			
+			<div class=" col-12 col-md-6 offset-md-3 mt-5 " >
+				<h5 class="card-title text-center h4 bg-dark text-white text-capitalize py-3 my-0 position-relative">todo list
+					<button class="btn btn-success position-absolute rounded-0 h-100 fixed-top" type="button" v-show='tasks.length >= 2 '  @click='sortTask'>Sort Tasks </button>
+
+				</h5>
+				<ul class="list-group mb-1 shadow" v-if='tasks.length > 0'>
+				  <li class="list-group-item  text-white bg-info rounded-0 " v-for='(task, index) in tasks' :key='index'>
+				  	<button type="button" @click='removeTask(task)' class="close text-white " aria-label="Close">
+						  <span aria-hidden="true">&times;</span>
+						</button>
+				  	{{index + 1}}.  {{task | capitalize}}
+
+				  </li>
+				</ul>
+				<div v-else class="list-group-item text-white bg-info rounded-0">Nothing To See Here...</div>
+				<div class="input-group mt-3 shadow">
+				  <input type="text" class="form-control bg-dark text-white" @keyup.enter='addTask' v-model='newTask' placeholder="what do you think..." >
+				  <div class="input-group-append" id="button-addon4">
+				    <button class="btn btn-success" type="button" @click='addTask'>AddTask</button>
+				    <button class="btn btn-danger" type="button" @click='clearAll'>ClearAll</button>
+				  </div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+<script src="vue.js"></script>
+<script>
+	app = new Vue({
+
+		el: "#myapp",
+		data:{
+			myfile : '',
+
+			tasks:[],
+			newTask: ''
+
+		},
+		computed:{	
+		},
+		filters:{
+
+			upper: function(value){
+				return value.toUpperCase();
+			},
+			capitalize:function(value){
+				const firstLetter = value.charAt(0);
+				return  firstLetter.toUpperCase() + value.slice(1);
+			}
+
+
+
+		},
+		methods: {
+
+			addTask: function(){
+				if(!this.newTask){
+					return false;
+				}
+
+				this.tasks.push(this.newTask);
+				
+				this.newTask =''
+			},
+			removeTask: function(task){
+				const index = this.tasks.indexOf(task);
+				this.tasks.splice(index,1)
+			},
+			clearAll: function(){
+
+				this.tasks = '';
+			},
+			sortTask: function(){
+
+				this.tasks.sort();
+
+
+
+			}
+			
+
+
+		}
+	})
+
+</script>
+<style>
+
+</style>
